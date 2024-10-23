@@ -4,9 +4,14 @@ from airflow.operators.python import PythonOperator
 from datetime import datetime
 import requests
 import os
+import json
+
+with open('../../secs/stock_project/apikey.json', 'r') as file:
+    data = json.load(file)
+apikey = data['apikey']
 
 def fetch_data_from_api():
-    response = requests.get('https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=MBG.DEX&outputsize=compact&apikey=4ENBGS5LIUUDOXWN')
+    response = requests.get(f'https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=MBG.DEX&outputsize=compact&apikey={apikey}')
     data = response.json()
     return data
 
